@@ -46,68 +46,99 @@ public class binary_tree_dfs {
     /* 前序遍历-迭代 */
     static void preOrderIterate(TreeNode root) {
         Stack<TreeNode> nodeStack = new Stack<>();
-        if (root == null)
-            return;
-        // 访问优先级：根节点 -> 左子树 -> 右子树
-        TreeNode curNode = root;
-       do{
-           //先访问节点的左子树
-           if(null != curNode.left){
-               nodeStack.push(curNode);
-               list.add(curNode.val);
-               curNode = curNode.left;
-           }else{
-               //再访问节点的右子树
-               if(null != curNode.right){
-                   list.add(curNode.val);
-                   curNode = curNode.right;
-                   nodeStack.push(curNode);
-               }else{
-                   //如果当前节点左右子树都没有，这说明是叶子节点。
-                   //需要从栈中去除其父节点。
-                   list.add(curNode.val);
-                   curNode = nodeStack.pop();
-                   //当前节点存在右子树
-                   if(null != curNode.right){
-                       //当栈底的节点是根节点的时候，需要做一次栈底节点
-                       //替换，替换为根节点下，右子树的节点。
-                       if(curNode == root){
-                           nodeStack.push(curNode.right);
-                       }
-                       curNode = curNode.right;
-                   }else{
-                       //不存在则弹出其父节点或其本身
-                       curNode = nodeStack.pop();
-                   }
-               }
-           }
-       }while (!nodeStack.isEmpty());
+        while(root != null || !nodeStack.isEmpty()){
+            while (root != null){
+                list.add(root.val);
+                nodeStack.push(root);
+                root = root.left;
+            }
+            if (!nodeStack.isEmpty()) {
+                root = nodeStack.pop();
+                root = root.right;
+            }
+        }
     }
 
     /* 中序遍历-迭代 */
     static void inOrderIterate(TreeNode root) {
-        if (root == null)
-            return;
-        // 访问优先级：左子树 -> 根节点 -> 右子树
-        inOrderIterate(root.left);
-        list.add(root.val);
-        inOrderIterate(root.right);
+        Stack<TreeNode> nodeStack = new Stack<>();
+        while(root != null || !nodeStack.isEmpty()){
+            while (root != null){
+                nodeStack.push(root);
+                root = root.left;
+            }
+            if (!nodeStack.isEmpty()) {
+                root = nodeStack.pop();
+                list.add(root.val);
+                root = root.right;
+            }
+        }
     }
 
     /* 后序遍历-迭代 */
     static void postOrderIterate(TreeNode root) {
-        if (root == null)
-            return;
-        // 访问优先级：左子树 -> 右子树 -> 根节点
-        postOrderIterate(root.left);
-        postOrderIterate(root.right);
-        list.add(root.val);
+        //用于表示是从左子树返回到父节点
+        int left = 1;
+        //用于表示是从右子树返回到父节点
+        int right = 2;
+        //用于存放树节点
+        Stack<TreeNode> nodeStack = new Stack<>();
+        //用于存放从左子树节点还是右子树节点返回到父节点的标记
+        Stack<Integer> markStack = new Stack<>();
+
+        while(root != null || !nodeStack.isEmpty()){
+            while (root!=null){
+                //将节点压栈并标记为左节点
+                nodeStack.push(root);
+                markStack.push(left);
+                root = root.left;
+            }
+            while(!nodeStack.isEmpty() && markStack.peek() == right){
+                //如果是从右子节点返回到父节点，直接输出
+                markStack.pop();
+                list.add(nodeStack.pop().val);
+            }
+            if(!nodeStack.isEmpty() && markStack.peek() == left){
+                //如果是从左子节点返回到父节点，标记为右节点，并对右节点进行操作。
+                markStack.pop();
+                markStack.push(right);
+                root = nodeStack.peek().right;
+            }
+        }
+    }
+
+    /* 后序遍历-迭代 */
+    static void postorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode prev = null;  // 用于记录上一个访问的节点
+
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode curr = stack.pop();
+
+            if (prev == null || prev.val != curr.val) {  // 如果prev为空或者prev与curr不是父子关系
+                list.add(0, curr.val);  // 将curr的值插入到结果列表的开头
+            }
+
+            if (curr.left != null) {
+                stack.push(curr.left);
+            }
+
+            if (curr.right != null) {
+                stack.push(curr.right);
+            }
+
+            prev = curr;  // 更新prev为当前节点
+        }
     }
 
     public static void main(String[] args) {
         /* 初始化二叉树 */
         // 这里借助了一个从数组直接生成二叉树的函数
-        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7,8));
+        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7,8,9,10));
         System.out.println("\n初始化二叉树\n");
         PrintUtil.printTree(root);
 
@@ -126,9 +157,24 @@ public class binary_tree_dfs {
         postOrderRecursion(root);
         System.out.println("\n后序遍历的节点打印序列 = " + list);
 
-        /* 前序遍历-递归 */
+        /* 前序遍历-迭代 */
         list.clear();
         preOrderIterate(root);
         System.out.println("\n前序遍历的节点打印序列 = " + list);
+
+        /* 中序遍历-迭代 */
+        list.clear();
+        inOrderIterate(root);
+        System.out.println("\n中序遍历的节点打印序列 = " + list);
+
+        /* 后序遍历-迭代 */
+        list.clear();
+        postOrderIterate(root);
+        System.out.println("\n中序遍历的节点打印序列 = " + list);
+
+        /* 后序遍历-迭代 */
+        list.clear();
+        postorderTraversal(root);
+        System.out.println("\n中序遍历的节点打印序列 = " + list);
     }
 }
