@@ -117,7 +117,7 @@ public class binary_tree_dfs {
         while (!stack.isEmpty()) {
             TreeNode curr = stack.pop();
 
-            if (prev == null || prev.val != curr.val) {  // 如果prev为空或者prev与curr不是父子关系
+            if (prev == null || prev != curr) {  // 如果prev为空或者prev与curr不是父子关系
                 list.add(0, curr.val);  // 将curr的值插入到结果列表的开头
             }
 
@@ -133,12 +133,29 @@ public class binary_tree_dfs {
         }
     }
 
+    /* 层序遍历-迭代 */
+    static void levelOrderIterate(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = null;//当前访问的节点
+        stack.push(root);
+        while (!stack.isEmpty()){
+            cur = stack.pop();
+            list.add(root.val);
+            if(null != cur.right){
+                stack.push(cur.right);
+            }
+            if(null != cur.left){
+                stack.push(cur.left);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         /* 初始化二叉树 */
         // 这里借助了一个从数组直接生成二叉树的函数
-        //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
         //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7,8));
-        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7,8,9,10));
+        //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2,1, 3, 4, 5, 6, 7,8,9,10));
         System.out.println("\n初始化二叉树\n");
         PrintUtil.printTree(root);
 
@@ -170,11 +187,16 @@ public class binary_tree_dfs {
         /* 后序遍历-迭代 */
         list.clear();
         postOrderIterate(root);
-        System.out.println("\n中序遍历的节点打印序列 = " + list);
+        System.out.println("\n后序遍历的节点打印序列 = " + list);
 
         /* 后序遍历-迭代 */
         list.clear();
         postorderTraversal(root);
-        System.out.println("\n中序遍历的节点打印序列 = " + list);
+        System.out.println("\n后序遍历的节点打印序列 = " + list);
+
+        /* 层序遍历-迭代 */
+        list.clear();
+        levelOrderIterate(root);
+        System.out.println("\n层序遍历的节点打印序列 = " + list);
     }
 }
