@@ -135,17 +135,17 @@ public class binary_tree_dfs {
 
     /* 层序遍历-迭代 */
     static void levelOrderIterate(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<>();
+        Queue<TreeNode> stack = new LinkedList<>();
         TreeNode cur = null;//当前访问的节点
-        stack.push(root);
+        stack.add(root);
         while (!stack.isEmpty()){
-            cur = stack.pop();
-            list.add(root.val);
-            if(null != cur.right){
-                stack.push(cur.right);
-            }
+            cur = stack.poll();
+            list.add( cur.val);  // 将curr的值插入到结果列表的开头
             if(null != cur.left){
-                stack.push(cur.left);
+                stack.add(cur.left);
+            }
+            if(null != cur.right){
+                stack.add(cur.right);
             }
         }
     }
@@ -153,9 +153,9 @@ public class binary_tree_dfs {
     public static void main(String[] args) {
         /* 初始化二叉树 */
         // 这里借助了一个从数组直接生成二叉树的函数
-        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
         //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7,8));
-        //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2,1, 3, 4, 5, 6, 7,8,9,10));
+        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2,1, 3, 4, 5, 6, 7,8,9,10));
         System.out.println("\n初始化二叉树\n");
         PrintUtil.printTree(root);
 
