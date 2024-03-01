@@ -135,6 +135,7 @@ public class binary_tree_dfs {
 
     /* 层序遍历-迭代 */
     static void levelOrderIterate(TreeNode root) {
+        //层序遍历用队列数据结构。
         Queue<TreeNode> stack = new LinkedList<>();
         TreeNode cur = null;//当前访问的节点
         stack.add(root);
@@ -155,7 +156,7 @@ public class binary_tree_dfs {
         // 这里借助了一个从数组直接生成二叉树的函数
         //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
         //TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7,8));
-        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2,1, 3, 4, 5, 6, 7,8,9,10));
+        TreeNode root = TreeNode.listToTree(Arrays.asList(1, 2,1, 3, 4, 5, 6, 7));
         System.out.println("\n初始化二叉树\n");
         PrintUtil.printTree(root);
 

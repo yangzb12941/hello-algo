@@ -143,6 +143,7 @@ class AVLTree {
                 while (temp.left != null) {
                     temp = temp.left;
                 }
+                //因为最终返回的是根节点，所以仍是需要挂在node.right
                 node.right = removeHelper(node.right, temp.val);
                 node.val = temp.val;
             }
