@@ -26,17 +26,20 @@ class MaxHeap {
 
     /* 获取左子节点的索引 */
     private int left(int i) {
-        return 2 * i + 1;
+        //return 2 * i + 1;
+        return (i<<1) + 1;
     }
 
     /* 获取右子节点的索引 */
     private int right(int i) {
-        return 2 * i + 2;
+        //return 2 * i + 2;
+        return (i<<1) + 2;
     }
 
     /* 获取父节点的索引 */
     private int parent(int i) {
-        return (i - 1) / 2; // 向下整除
+        //return (i - 1) / 2; // 向下整除
+        return (i - 1) >> 1; // 向下整除
     }
 
     /* 交换元素 */

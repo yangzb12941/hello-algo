@@ -143,7 +143,8 @@ class QuickSortTailCall {
 public class quick_sort {
     public static void main(String[] args) {
         /* 快速排序 */
-        int[] nums = { 2, 4, 1, 0, 3, 5 };
+        //int[] nums = { 2, 4, 1, 0, 3, 5 };
+        int[] nums = { 0,1,2,3,4,5,6,7,8,9,10 };
         QuickSort.quickSort(nums, 0, nums.length - 1);
         System.out.println("快速排序完成后 nums = " + Arrays.toString(nums));
 
@@ -154,6 +155,7 @@ public class quick_sort {
 
         /* 快速排序（尾递归优化） */
         int[] nums2 = { 2, 4, 1, 0, 3, 5 };
+        //int[] nums2 = { 0,1,2,3,4,5,6,7,8,9,10 };
         QuickSortTailCall.quickSort(nums2, 0, nums2.length - 1);
         System.out.println("快速排序（尾递归优化）完成后 nums2 = " + Arrays.toString(nums2));
     }
