@@ -23,7 +23,7 @@ public class climbing_stairs_dfs {
     }
 
     public static void main(String[] args) {
-        int n = 9;
+        int n = 32;
 
         int res = climbingStairsDFS(n);
         System.out.println(String.format("爬 %d 阶楼梯共有 %d 种方案", n, res));

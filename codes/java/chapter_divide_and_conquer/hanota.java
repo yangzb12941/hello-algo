@@ -9,6 +9,8 @@ package chapter_divide_and_conquer;
 import java.util.*;
 
 public class hanota {
+
+    static int moveTime = 0;
     /* 移动一个圆盘 */
     static void move(List<Integer> src, List<Integer> tar) {
         // 从 src 顶部拿出一个圆盘
@@ -41,7 +43,11 @@ public class hanota {
 
     public static void main(String[] args) {
         // 列表尾部是柱子顶部
-        List<Integer> A = new ArrayList<>(Arrays.asList(5, 4, 3, 2, 1));
+        //List<Integer> A = new ArrayList<>(Arrays.asList(5, 4, 3, 2, 1));
+        List<Integer> A = new ArrayList<>(32);
+        for(int i=32;i>=1;i--){
+            A.add(i);
+        }
         List<Integer> B = new ArrayList<>();
         List<Integer> C = new ArrayList<>();
         System.out.println("初始状态下：");

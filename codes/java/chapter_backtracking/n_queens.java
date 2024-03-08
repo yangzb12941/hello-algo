@@ -24,6 +24,8 @@ public class n_queens {
         // 遍历所有列
         for (int col = 0; col < n; col++) {
             // 计算该格子对应的主对角线和次对角线
+            // 这里 n - 1 是因为 主对角线 row-col 的数值范围是[-n+1,n-1]。为了映射到数组下标
+            // 那么需要抹平-n+1的负数这部分。
             int diag1 = row - col + n - 1;
             int diag2 = row + col;
             // 剪枝：不允许该格子所在列、主对角线、次对角线上存在皇后
@@ -62,7 +64,7 @@ public class n_queens {
     }
 
     public static void main(String[] args) {
-        int n = 4;
+        int n = 8;
         List<List<List<String>>> res = nQueens(n);
 
         System.out.println("输入棋盘长宽为 " + n);
